@@ -26,3 +26,12 @@ Going with a `std::priority_queue` because that seems to be the quickest and eas
 Part 1 success on the first try!  Yes, it's the first day, but I'm still excited.
 
 Part 2 done pretty simply with a map.
+
+
+### December 4th
+
+#### Day 2
+
+I have 15 minutes, can I get day 2 done in that amount of time?
+
+Had a couple minor mistakes, one with parsing, and the other with checking for whether the levels were increasing or decreasing, but got part 1 to pass!  It took longer than 15 minutes, so I'll have to come back to part 2 later.

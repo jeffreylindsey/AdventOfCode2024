@@ -7,6 +7,9 @@
     <Filter Include="Day01">
       <UniqueIdentifier>{553bc573-3e96-46a2-b44c-e7ca00846035}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Day02">
+      <UniqueIdentifier>{453565f4-53d4-437e-81c7-595ab384e4d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shared\Precompiled.cpp">
@@ -20,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="Day01\Day01.cpp">
       <Filter>Day01</Filter>
+    </ClCompile>
+    <ClCompile Include="Day02\Day02.cpp">
+      <Filter>Day02</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +45,12 @@
     </Text>
     <Text Include="Day01\Sample.txt">
       <Filter>Day01</Filter>
+    </Text>
+    <Text Include="Day02\Input.txt">
+      <Filter>Day02</Filter>
+    </Text>
+    <Text Include="Day02\Sample.txt">
+      <Filter>Day02</Filter>
     </Text>
   </ItemGroup>
 </Project>
