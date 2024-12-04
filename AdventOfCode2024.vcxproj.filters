@@ -4,6 +4,9 @@
     <Filter Include="Shared">
       <UniqueIdentifier>{1ab08d8d-c9bb-4fa3-9e28-ce53897c202b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Day01">
+      <UniqueIdentifier>{553bc573-3e96-46a2-b44c-e7ca00846035}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shared\Precompiled.cpp">
@@ -14,6 +17,9 @@
     </ClCompile>
     <ClCompile Include="Shared\AOCTest.cpp">
       <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Day01\Day01.cpp">
+      <Filter>Day01</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -26,5 +32,13 @@
     <ClInclude Include="Shared\AOCTest.hpp">
       <Filter>Shared</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Day01\Input.txt">
+      <Filter>Day01</Filter>
+    </Text>
+    <Text Include="Day01\Sample.txt">
+      <Filter>Day01</Filter>
+    </Text>
   </ItemGroup>
 </Project>

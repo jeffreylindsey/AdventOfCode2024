@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Day01\Day01.cpp" />
     <ClCompile Include="Shared\AOCTest.cpp" />
     <ClCompile Include="Shared\LineReader.cpp" />
     <ClCompile Include="Shared\Precompiled.cpp">
@@ -32,6 +33,10 @@
     <ClInclude Include="Shared\AOCTest.hpp" />
     <ClInclude Include="Shared\LineReader.hpp" />
     <ClInclude Include="Shared\Precompiled.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Day01\Input.txt" />
+    <Text Include="Day01\Sample.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -93,21 +98,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>.\Build\$(Platform).$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>.\Build\$(Platform).$(Configuration).tmp\$(ProjectName)\</IntDir>
+    <IncludePath>.\Shared;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>.\Build\$(Platform).$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>.\Build\$(Platform).$(Configuration).tmp\$(ProjectName)\</IntDir>
+    <IncludePath>.\Shared;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>.\Build\$(Platform).$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>.\Build\$(Platform).$(Configuration).tmp\$(ProjectName)\</IntDir>
+    <IncludePath>.\Shared;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>.\Build\$(Platform).$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>.\Build\$(Platform).$(Configuration).tmp\$(ProjectName)\</IntDir>
+    <IncludePath>.\Shared;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
