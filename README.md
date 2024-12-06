@@ -35,3 +35,27 @@ Part 2 done pretty simply with a map.
 I have 15 minutes, can I get day 2 done in that amount of time?
 
 Had a couple minor mistakes, one with parsing, and the other with checking for whether the levels were increasing or decreasing, but got part 1 to pass!  It took longer than 15 minutes, so I'll have to come back to part 2 later.
+
+
+### December 5th
+
+#### Day 2 - continued
+
+I did take a quick look at part 2 yesterday, so I had a little bit of time to
+think about it.  I thing all I need to do is to keep a count of how many times
+an unsafe level is encountered in the report, and so long as it's not more
+than 1, that means it's safe.
+
+This approach works with the given sample, but the result was too low for my
+given input.
+
+I managed to spot an example of where this approach fails: 55 52 53 54 56 57.
+This one fails because my function does not attempt to ignore the first level.
+
+I could brute force this by removing one level at a time, but that seems silly.
+I could reverse the list, and my current function would work without any
+further modifications.
+
+The reversed list approach worked!  I don't feel like it's the best solution,
+but it's good enough to move on for now.  If I feel like revisiting any of
+these days, this is one to revisit.

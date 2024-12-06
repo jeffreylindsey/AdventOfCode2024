@@ -2,6 +2,7 @@
 
 #include "CppUnitTest.h"
 
+#include <algorithm>  // std::ranges::reverse
 #include <filesystem>
 #include <fstream>  // std::ifstream
 #include <queue>  // std::priority_queue
