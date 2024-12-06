@@ -59,3 +59,23 @@ further modifications.
 The reversed list approach worked!  I don't feel like it's the best solution,
 but it's good enough to move on for now.  If I feel like revisiting any of
 these days, this is one to revisit.
+
+#### Day 3
+
+Ah, now we're *intentionally* getting into parsing!
+
+Not sure if there will be a case where a number has more than three digits,
+but I suppose I might as well handle that case.
+
+I'm kinda surprised there still isn't a built-in `string_view` to integer
+function.  I could try using `std::from_chars` to avoid making a copy of the
+string, but `std::stoi` is simpler, and I'm not that conserned about
+performance right now.
+
+Part 1 input worked on the first try.
+
+Now we're parsing with state!  I noticed part 2 has a different sample than
+part 1, which is only a minor inconvenience.
+
+For a brief moment, I thought it might be time to introduce a class, but then
+I realised all I needed was to add a couple more ParseMatch calls.

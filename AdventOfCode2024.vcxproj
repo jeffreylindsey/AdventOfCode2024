@@ -43,6 +43,7 @@
     <Text Include="Day02\Sample.txt" />
     <Text Include="Day03\Input.txt" />
     <Text Include="Day03\Sample.txt" />
+    <Text Include="Day03\Sample2.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
