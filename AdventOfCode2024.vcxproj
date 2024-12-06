@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Day01\Day01.cpp" />
     <ClCompile Include="Day02\Day02.cpp" />
+    <ClCompile Include="Day03\Day03.cpp" />
     <ClCompile Include="Shared\AOCTest.cpp" />
     <ClCompile Include="Shared\LineReader.cpp" />
     <ClCompile Include="Shared\Precompiled.cpp">
@@ -40,6 +41,8 @@
     <Text Include="Day01\Sample.txt" />
     <Text Include="Day02\Input.txt" />
     <Text Include="Day02\Sample.txt" />
+    <Text Include="Day03\Input.txt" />
+    <Text Include="Day03\Sample.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
