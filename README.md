@@ -69,7 +69,7 @@ but I suppose I might as well handle that case.
 
 I'm kinda surprised there still isn't a built-in `string_view` to integer
 function.  I could try using `std::from_chars` to avoid making a copy of the
-string, but `std::stoi` is simpler, and I'm not that conserned about
+string, but `std::stoi` is simpler, and I'm not that concerned about
 performance right now.
 
 Part 1 input worked on the first try.
@@ -78,4 +78,17 @@ Now we're parsing with state!  I noticed part 2 has a different sample than
 part 1, which is only a minor inconvenience.
 
 For a brief moment, I thought it might be time to introduce a class, but then
-I realised all I needed was to add a couple more ParseMatch calls.
+I realized all I needed was to add a couple more ParseMatch calls.
+
+
+### December 6th
+
+#### Day 4
+
+Word search seems like a fun challenge that I haven't done before!  I imagine the general approach will be to load the input into memory, and then search for the given word in each of the 8 directions.
+
+In this case, I think it'll be nice to create a class to contain the input, so that I can do easier access with built-in bounds checking.
+
+I also can't help but think how much more difficult this would be if it was necessary to support Unicode in a puzzle like this.  For now I'm assuming everything is in ASCII.
+
+Part 1 success!  Code worked on the first try.
