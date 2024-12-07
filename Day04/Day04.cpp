@@ -24,6 +24,8 @@ class c_WordSearch
 
 		int CountWord(const std::string_view Word) const;
 
+		int CountXMas() const;
+
 	//--- Private Types -------------------------------------------------------
 	private:
 		struct s_Direction
@@ -64,6 +66,8 @@ class c_WordSearch
 			, const s_Direction& Direction
 			) const;
 
+		bool IsXMasAt(const int Column, const int Row) const;
+
 	//--- Private Members -----------------------------------------------------
 	private:
 		size_t m_LineLength = 0;
@@ -94,6 +98,26 @@ int c_WordSearch::CountWord(const std::string_view Word) const
 }
 
 /*===========================================================================*/
+int c_WordSearch::CountXMas() const
+{
+	int Count = 0;
+
+	const int NumColumns = GetNumColumns();
+	const int NumRows = GetNumRows();
+
+	for (int Row = 0; Row < NumRows; ++Row)
+	{
+		for (int Column = 0; Column < NumColumns; ++Column)
+		{
+			if (IsXMasAt(Column, Row))
+				++Count;
+		}
+	}
+
+	return Count;
+}
+
+/*===========================================================================*/
 int c_WordSearch::GetNumColumns() const
 {
 	return static_cast<int>(m_LineLength);
@@ -113,7 +137,7 @@ int c_WordSearch::GetNumRows() const
 -----------------------------------------------------------------------------*/
 char c_WordSearch::GetLetterAt(const int Column, const int Row) const
 {
-	if (Column < 0 || Column > m_LineLength)
+	if (Column < 0 || Column >= m_LineLength)
 		return 0;
 
 	if (Row < 0)
@@ -170,6 +194,30 @@ bool c_WordSearch::IsWordAt
 	return true;
 }
 
+/*===========================================================================*/
+bool c_WordSearch::IsXMasAt(const int Column, const int Row) const
+{
+	// Check for the A in the middle.
+	if (GetLetterAt(Column, Row) != 'A')
+		return false;
+
+	// Check North-East and South-West.
+	const char NELetter = GetLetterAt(Column + 1, Row - 1);
+	const char SWLetter = GetLetterAt(Column - 1, Row + 1);
+	const bool FirstFound
+		= (NELetter == 'M' && SWLetter == 'S')
+			|| (NELetter == 'S' && SWLetter == 'M');
+
+	// Check North-West and South-East.
+	const char NWLetter = GetLetterAt(Column - 1, Row - 1);
+	const char SELetter = GetLetterAt(Column + 1, Row + 1);
+	const bool SecondFound
+		= (NWLetter == 'M' && SELetter == 'S')
+			|| (NWLetter == 'S' && SELetter == 'M');
+
+	return (FirstFound && SecondFound);
+}
+
 /*****************************************************************************/
 
 TEST_CLASS(Part1)
@@ -201,12 +249,21 @@ TEST_CLASS(Part2)
 	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
-		return 0;
+		c_WordSearch WordSearch;
+
+		// Load the input.
+		for (const std::string& Line : c_LineReader(Input))
+			WordSearch.AddLine(Line);
+
+		// Do X-MAS search.
+		const int NumFound = WordSearch.CountXMas();
+
+		return NumFound;
 	}
 
 	public:
-		AOC_TEST(Sample, 0)
-		AOC_TEST(Input, 0)
+		AOC_TEST(Sample, 9)
+		AOC_TEST(Input, 1978)
 };
 
 /*****************************************************************************/
