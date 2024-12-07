@@ -92,3 +92,9 @@ In this case, I think it'll be nice to create a class to contain the input, so t
 I also can't help but think how much more difficult this would be if it was necessary to support Unicode in a puzzle like this.  For now I'm assuming everything is in ASCII.
 
 Part 1 success!  Code worked on the first try.
+
+Hah, I was wondering what they would do for part 2.  This is quite clever!  And also not a quick solution with my current implementation.  The challenge here is how `MAS` needs to cross in the middle.
+
+I was thinking that I could still make use of my `IsWordAt` function, but then I also thought it would be most efficient to first check for the `A` in the middle.  These two ideas don't really go together, so I need to pick one.  Since I know I'm specializing for `MAS` and not any generic word, the second approach might be smarter.
+
+Hmm, on my first run at the sample, I got 10 instead of the expected 9 matches.  So now I'm going to need to do some debugging.  Oh, I had `>` instead of `>=` when checking for out of bounds columns with the line length.
