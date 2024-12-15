@@ -23,6 +23,7 @@
     <ClCompile Include="Day02\Day02.cpp" />
     <ClCompile Include="Day03\Day03.cpp" />
     <ClCompile Include="Day04\Day04.cpp" />
+    <ClCompile Include="Day05\Day05.cpp" />
     <ClCompile Include="Shared\AOCTest.cpp" />
     <ClCompile Include="Shared\LineReader.cpp" />
     <ClCompile Include="Shared\Precompiled.cpp">
@@ -47,6 +48,8 @@
     <Text Include="Day03\Sample2.txt" />
     <Text Include="Day04\Input.txt" />
     <Text Include="Day04\Sample.txt" />
+    <Text Include="Day05\Input.txt" />
+    <Text Include="Day05\Sample.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
