@@ -126,5 +126,9 @@ correctly-ordered updates, which is not correct, so time to debug.  It looks
 like my code for figuring out the complete order of pages is incorrect.
 
 In debugging my code, I discovered that the sequence of pages defined by the
-input appears to be circular.  So my approach of creating a definitive linear
-sequence is not working.  Time for a different approach.
+input appears to be circular.  So my approach of trying to create a linear
+sequence just won't work.  Time for a different approach.
+
+Taking the first approach I described earlier, that one also passes with the
+sample, but not with the input.  I'm struggling to debug this because I don't
+know what case is going wrong.  I'll have to revisit this another day.

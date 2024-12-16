@@ -12,6 +12,13 @@ namespace Day05
 
 constexpr std::string_view DayString = "Day05";
 
+/*=======================================================================*/
+template<typename t_Container, typename t_Value>
+bool Contains(t_Container Container, t_Value Value)
+{
+	return (std::ranges::find(Container, Value) != Container.end());
+}
+
 /*****************************************************************************/
 
 TEST_CLASS(Part1)
@@ -22,29 +29,51 @@ TEST_CLASS(Part1)
 		int After = 0;
 	};
 
-	/*=========================================================================
-		Returns 0 if the given update is not in the right order.
-	-------------------------------------------------------------------------*/
-	int GetMiddlePageNumber
-	( const std::vector<int>& PagesToProduce
-	, const std::vector<int>& CompletePageOrder
+	/*=======================================================================*/
+	bool ArePagesCorrectlyOrdered
+	( const std::span<const int> PagesToProduce
+	, const std::vector<s_PageOrderingRule>& PageOrderingRules
 	)
 	{
-		ptrdiff_t LastIndex = -1;
-
-		for (const int Page : PagesToProduce)
+		// Iterate through each page.
+		for (size_t PageIndexToCheck = 0;
+			PageIndexToCheck < PagesToProduce.size();
+			++PageIndexToCheck
+		)
 		{
-			const auto FoundIter = std::ranges::find(CompletePageOrder, Page);
-			const ptrdiff_t FoundIndex = FoundIter - CompletePageOrder.begin();
+			const int PageToCheck = PagesToProduce[PageIndexToCheck];
 
-			// The update is not valid if the page is not in order.
-			if (FoundIndex <= LastIndex)
-				return 0;
+			for (const s_PageOrderingRule& Rule : PageOrderingRules)
+			{
+				// Check if this rule applies to the current page.
+				if (PageToCheck == Rule.Before)
+				{
+					// This rule indicates that this page must be before
+					// another page.  If that other page is found before this
+					// page, then the order is not correct.
 
-			LastIndex = FoundIndex;
+					const auto PagesBefore
+						= PagesToProduce.subspan(0, PageIndexToCheck);
+
+					if (Contains(PagesBefore, Rule.After))
+						return false;
+				}
+				else if (PageToCheck == Rule.After)
+				{
+					// This rule indicates that this page must be after
+					// another page.  If that other page is found is found
+					// after this page, then the order is not correct.
+
+					const auto PagesAfter
+						= PagesToProduce.subspan(PageIndexToCheck + 1);
+
+					if (Contains(PagesAfter, Rule.Before))
+						return false;
+				}
+			}
 		}
 
-		return PagesToProduce[PagesToProduce.size() / 2];
+		return true;
 	}
 
 	/*=======================================================================*/
@@ -95,98 +124,16 @@ TEST_CLASS(Part1)
 			}
 		}
 
-		// Build complete page order.
-		std::vector<int> CompletePageOrder;
-		{
-			// Maps pages to the pages that come after it.
-			std::unordered_map<int, std::unordered_set<int>> Mapping;
-
-			// Initial mapping.
-			for (const s_PageOrderingRule& Rule : PageOrderingRules)
-			{
-				Mapping[Rule.Before].insert(Rule.After);
-
-				// Make sure the After page exists in the map.
-				Mapping[Rule.After];
-			}
-
-			// Complete mapping.
-			for (auto& [Page, r_Afters] : Mapping)
-			{
-				std::deque<int> ToCheck(r_Afters.begin(), r_Afters.end());
-
-				for (; !ToCheck.empty(); ToCheck.pop_front())
-				{
-					const int PageToCheck = ToCheck.front();
-
-					for (const int After : Mapping[PageToCheck])
-					{
-						if (r_Afters.insert(After).second)
-							ToCheck.push_back(After);
-					}
-				}
-			}
-
-			for (const auto& [Page, Afters] : Mapping)
-			{
-				// Insert the page just before any pages that come after it.
-				auto InsertIter = CompletePageOrder.begin();
-				for (; InsertIter != CompletePageOrder.end(); ++InsertIter)
-				{
-					if (Afters.contains(*InsertIter))
-						break;
-				}
-
-				CompletePageOrder.insert(InsertIter, Page);
-			}
-		}
-
-		// Verify?
-		{
-			for (size_t Index = 0; Index < CompletePageOrder.size(); ++Index)
-			{
-				const int CurrentPage = CompletePageOrder[Index];
-
-				for (const s_PageOrderingRule& Rule : PageOrderingRules)
-				{
-					if (Rule.Before == CurrentPage)
-					{
-						const auto AfterPages
-							= std::span<int>(CompletePageOrder)
-								.subspan(Index + 1);
-
-						if (std::ranges::find(AfterPages, Rule.After)
-							== AfterPages.end()
-						)
-						{
-							Assert::Fail();
-						}
-					}
-					else if (Rule.After == CurrentPage)
-					{
-						const auto BeforePages
-							= std::span<int>(CompletePageOrder)
-								.subspan(0, Index);
-
-						if (std::ranges::find(BeforePages, Rule.Before)
-							== BeforePages.end()
-						)
-						{
-							Assert::Fail();
-						}
-					}
-				}
-			}
-		}
-
 		int MiddlePageNumberSum = 0;
 
 		for (const std::vector<int>& PagesToProduce : Updates)
 		{
-			const int MiddlePageNumber
-				= GetMiddlePageNumber(PagesToProduce, CompletePageOrder);
+			if (ArePagesCorrectlyOrdered(PagesToProduce, PageOrderingRules))
+			{
+				const size_t MiddlePageIndex = PagesToProduce.size() / 2;
 
-			MiddlePageNumberSum += MiddlePageNumber;
+				MiddlePageNumberSum += PagesToProduce[MiddlePageIndex];
+			}
 		}
 
 		return MiddlePageNumberSum;
