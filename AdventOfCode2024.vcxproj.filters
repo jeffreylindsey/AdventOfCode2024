@@ -45,6 +45,9 @@
     <ClCompile Include="Day05\Day05.cpp">
       <Filter>Day05</Filter>
     </ClCompile>
+    <ClCompile Include="Shared\StringUtil.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\Precompiled.hpp">
@@ -54,6 +57,9 @@
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="Shared\AOCTest.hpp">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\StringUtil.hpp">
       <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>

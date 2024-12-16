@@ -98,3 +98,33 @@ Hah, I was wondering what they would do for part 2.  This is quite clever!  And 
 I was thinking that I could still make use of my `IsWordAt` function, but then I also thought it would be most efficient to first check for the `A` in the middle.  These two ideas don't really go together, so I need to pick one.  Since I know I'm specializing for `MAS` and not any generic word, the second approach might be smarter.
 
 Hmm, on my first run at the sample, I got 10 instead of the expected 9 matches.  So now I'm going to need to do some debugging.  Oh, I had `>` instead of `>=` when checking for out of bounds columns with the line length.
+
+
+### December 15th
+
+#### Day 5: Print Queue
+
+This one feels pretty involved, but that might just be because there are
+multiple steps to get to a single number result.
+
+I feel like I want a split string utility function, to help with parsing comma
+separated lists.  So I made a quick `n_StringUtil::SplitString` for this
+purpose.
+
+I wonder if 0 is a valid page number.  For the moment I'm going to
+optimistically assume that it is not, since that helps make the code simpler
+for me.
+
+Now that I'm thinking about the meat of this problem, I'm seeing two different
+approaches.  The first approach is to iterate through all the rules for each
+page in the update, to make sure it's valid.  The second approach is to build
+an ordering for all pages using the ordering rules, and then compare the
+updates to that.  I'm interested in trying this second approach.
+
+My first attempt at my given input indicated that there were no
+correctly-ordered updates, which is not correct, so time to debug.  It looks
+like my code for figuring out the complete order of pages is incorrect.
+
+In debugging my code, I discovered that the sequence of pages defined by the
+input appears to be circular.  So my approach of creating a definitive linear
+sequence is not working.  Time for a different approach.
