@@ -13,6 +13,48 @@ constexpr std::string_view DayString = "Day06";
 
 enum class e_Direction { Up, Down, Left, Right };
 
+/*===========================================================================*/
+e_Direction GetRightDirection(const e_Direction Direction)
+{
+	switch (Direction)
+	{
+		case e_Direction::Up:
+		return e_Direction::Right;
+
+		case e_Direction::Down:
+		return e_Direction::Left;
+
+		case e_Direction::Left:
+		return e_Direction::Up;
+
+		case e_Direction::Right:
+		return e_Direction::Down;
+	}
+
+	Assert::Fail();
+}
+
+/*===========================================================================*/
+e_Direction GetReverseDirection(const e_Direction Direction)
+{
+	switch (Direction)
+	{
+		case e_Direction::Up:
+		return e_Direction::Down;
+
+		case e_Direction::Down:
+		return e_Direction::Up;
+
+		case e_Direction::Left:
+		return e_Direction::Right;
+
+		case e_Direction::Right:
+		return e_Direction::Left;
+	}
+
+	Assert::Fail();
+}
+
 /*****************************************************************************/
 // s_Position
 
@@ -84,24 +126,7 @@ s_Position s_Guard::GetForwardPosition() const
 /*===========================================================================*/
 void s_Guard::TurnRight()
 {
-	switch (Direction)
-	{
-		case e_Direction::Up:
-			Direction = e_Direction::Right;
-		break;
-
-		case e_Direction::Down:
-			Direction = e_Direction::Left;
-		break;
-
-		case e_Direction::Left:
-			Direction = e_Direction::Up;
-		break;
-
-		case e_Direction::Right:
-			Direction = e_Direction::Down;
-		break;
-	}
+	Direction = GetRightDirection(Direction);
 }
 
 /*===========================================================================*/
@@ -164,52 +189,52 @@ bool c_Map::IsInMappedArea(const s_Position& Position) const
 		&& Position.Row >= 0 && Position.Row < m_Height;
 }
 
+/*===========================================================================*/
+std::tuple<c_Map, s_Guard> LoadInput(std::ifstream Input)
+{
+	c_Map Map;
+	s_Guard Guard;
+
+	int Row = 0;
+	for (const std::string& Line : c_LineReader(Input))
+	{
+		int Column = 0;
+		for (const char Char : Line)
+		{
+			const s_Position Position{.Column = Column, .Row = Row};
+
+			switch (Char)
+			{
+				case '#':
+					Map.AddObstruction(Position);
+				break;
+
+				case '^':
+				{
+					Guard
+						= s_Guard
+							{ .Position = Position
+							, .Direction = e_Direction::Up
+							};
+				}
+				break;
+			}
+
+			++Column;
+		}
+		Map.SetWidth(Column);
+
+		++Row;
+	}
+	Map.SetHeight(Row);
+
+	return {Map, Guard};
+}
+
 /*****************************************************************************/
 
 TEST_CLASS(Part1)
 {
-	/*=======================================================================*/
-	std::tuple<c_Map, s_Guard> LoadInput(std::ifstream Input)
-	{
-		c_Map Map;
-		s_Guard Guard;
-
-		int Row = 0;
-		for (const std::string& Line : c_LineReader(Input))
-		{
-			int Column = 0;
-			for (const char Char : Line)
-			{
-				const s_Position Position{.Column = Column, .Row = Row};
-
-				switch (Char)
-				{
-					case '#':
-						Map.AddObstruction(Position);
-					break;
-
-					case '^':
-					{
-						Guard
-							= s_Guard
-								{ .Position = Position
-								, .Direction = e_Direction::Up
-								};
-					}
-					break;
-				}
-
-				++Column;
-			}
-			Map.SetWidth(Column);
-
-			++Row;
-		}
-		Map.SetHeight(Row);
-
-		return {Map, Guard};
-	}
-
 	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
@@ -247,11 +272,65 @@ TEST_CLASS(Part2)
 	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
-		return 0;
+		// Load the input.
+		const auto [Map, InitialGuard] = LoadInput(std::move(Input));
+
+		std::set<std::tuple<s_Position, e_Direction>> PotentialObstructions;
+		std::set<s_Position> ObstructionPositions;
+
+		// Simulate the guard's path to find potential obstructions.
+		s_Guard Guard = InitialGuard;
+		while (Map.IsInMappedArea(Guard.Position))
+		{
+			const s_Position ForwardPosition = Guard.GetForwardPosition();
+
+			// If obstructing the guard at their current position would cause
+			// them to reach a previously encountered obstruction, mark this
+			// as an obstruction position.
+			if (PotentialObstructions.contains
+				( std::make_tuple
+					( Guard.Position
+					, GetRightDirection(Guard.Direction)
+					)
+				)
+			)
+			{
+				ObstructionPositions.emplace(ForwardPosition);
+			}
+
+			if (Map.IsObstructionAt(ForwardPosition))
+			{
+				// Mark potential obstruction positions that will lead to the
+				// guard's current position.
+				{
+					const e_Direction ReverseDirection
+						= GetReverseDirection(Guard.Direction);
+
+					s_Position Position = Guard.Position;
+
+					while (Map.IsInMappedArea(Position)
+						&& !Map.IsObstructionAt(Position)
+					)
+					{
+						PotentialObstructions.emplace
+							( std::make_tuple(Position, Guard.Direction)
+							);
+
+						Position = Position.InDirection(ReverseDirection);
+					}
+				}
+
+				Guard.TurnRight();
+			}
+			else
+				Guard.StepForward();
+		}
+
+		return static_cast<int>(ObstructionPositions.size());
 	}
 
 	public:
-		AOC_TEST(Sample, 0)
+		AOC_TEST(Sample, 6)
 		AOC_TEST(Input, 0)
 };
 

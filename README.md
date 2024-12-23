@@ -150,3 +150,10 @@ get a built-in less-than operator using the default `<=>` operator, but I can't
 get a built-in hash function.
 
 My initial implementation worked fine, and now it's on to part 2!
+
+Part 2 is an interesting puzzle!  My initial idea is that any time the guard
+encounters an obstruction, mark all the positions back from that position as
+potential places to obstruct the guard.
+
+I got the example to pass, but the answer I tried for my input was too low.  I
+assume that means there are special cases that I'm not considering.
