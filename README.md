@@ -132,3 +132,10 @@ sequence just won't work.  Time for a different approach.
 Taking the first approach I described earlier, that one also passes with the
 sample, but not with the input.  I'm struggling to debug this because I don't
 know what case is going wrong.  I'll have to revisit this another day.
+
+
+### December 22nd
+
+I'm going to set day 5 aside and see if I can move on with day 6.
+
+#### Day 6: 
