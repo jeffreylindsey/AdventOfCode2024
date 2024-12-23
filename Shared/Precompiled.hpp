@@ -10,6 +10,7 @@
 #include <numeric>  // std::reduce
 #include <optional>
 #include <queue>  // std::priority_queue
+#include <set>
 #include <span>
 #include <sstream>  // std::stringstream
 #include <string>

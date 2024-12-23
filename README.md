@@ -138,4 +138,15 @@ know what case is going wrong.  I'll have to revisit this another day.
 
 I'm going to set day 5 aside and see if I can move on with day 6.
 
-#### Day 6: 
+#### Day 6: Guard Gallivant
+
+The input is a grid similar to day 4, so that's a good starting point.
+
+Actually, I don't need to store the entire map, I just need to load the
+positions of things!
+
+Deciding to use `std::set` instead of `std::unordered_set` because I can easily
+get a built-in less-than operator using the default `<=>` operator, but I can't
+get a built-in hash function.
+
+My initial implementation worked fine, and now it's on to part 2!
