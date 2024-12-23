@@ -67,7 +67,7 @@ struct s_Position
 
 	//--- Methods -------------------------------------------------------------
 
-	constexpr auto operator<=>(const s_Position&) const = default;
+	constexpr auto operator<=>(const s_Position&) const noexcept = default;
 
 	s_Position InDirection(const e_Direction Direction) const;
 };
@@ -110,6 +110,8 @@ struct s_Guard
 	e_Direction Direction = e_Direction::Up;
 
 	//--- Methods -------------------------------------------------------------
+
+	constexpr auto operator<=>(const s_Guard&) const noexcept = default;
 
 	s_Position GetForwardPosition() const;
 
@@ -269,61 +271,65 @@ TEST_CLASS(Part1)
 
 TEST_CLASS(Part2)
 {
+	/*=========================================================================
+		Returns true only if placing a new obstruction at the given position
+		will cause the guard to loop.
+	-------------------------------------------------------------------------*/
+	bool TryObstructionAt
+	( const s_Position& ObstructionPosition
+	, const c_Map& Map
+	, s_Guard Guard
+	)
+	{
+		std::set<s_Guard> ObstructionsEncountered;
+
+		while (Map.IsInMappedArea(Guard.Position))
+		{
+			const s_Position ForwardPosition = Guard.GetForwardPosition();
+
+			const bool HasObstruction
+				= Map.IsObstructionAt(ForwardPosition)
+					|| ForwardPosition == ObstructionPosition;
+
+			if (HasObstruction)
+			{
+				// If the guard has been in this state before, then they are
+				// in a loop.
+				if (!ObstructionsEncountered.emplace(Guard).second)
+					return true;
+
+				Guard.TurnRight();
+			}
+			else
+				Guard.StepForward();
+		}
+
+		return false;
+	}
+
 	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
 		// Load the input.
 		const auto [Map, InitialGuard] = LoadInput(std::move(Input));
 
-		std::set<std::tuple<s_Position, e_Direction>> PotentialObstructions;
 		std::set<s_Position> ObstructionPositions;
 
-		// Simulate the guard's path to find potential obstructions.
+		// Simulate the guard's path.
 		s_Guard Guard = InitialGuard;
 		while (Map.IsInMappedArea(Guard.Position))
 		{
 			const s_Position ForwardPosition = Guard.GetForwardPosition();
 
-			// If obstructing the guard at their current position would cause
-			// them to reach a previously encountered obstruction, mark this
-			// as an obstruction position.
-			if (PotentialObstructions.contains
-				( std::make_tuple
-					( Guard.Position
-					, GetRightDirection(Guard.Direction)
-					)
-				)
-			)
-			{
-				ObstructionPositions.emplace(ForwardPosition);
-			}
-
 			if (Map.IsObstructionAt(ForwardPosition))
-			{
-				// Mark potential obstruction positions that will lead to the
-				// guard's current position.
-				{
-					const e_Direction ReverseDirection
-						= GetReverseDirection(Guard.Direction);
-
-					s_Position Position = Guard.Position;
-
-					while (Map.IsInMappedArea(Position)
-						&& !Map.IsObstructionAt(Position)
-					)
-					{
-						PotentialObstructions.emplace
-							( std::make_tuple(Position, Guard.Direction)
-							);
-
-						Position = Position.InDirection(ReverseDirection);
-					}
-				}
-
 				Guard.TurnRight();
-			}
 			else
+			{
+				if (TryObstructionAt(ForwardPosition, Map, InitialGuard))
+					ObstructionPositions.emplace(ForwardPosition);
+
 				Guard.StepForward();
+			}
 		}
 
 		return static_cast<int>(ObstructionPositions.size());

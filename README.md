@@ -157,3 +157,20 @@ potential places to obstruct the guard.
 
 I got the example to pass, but the answer I tried for my input was too low.  I
 assume that means there are special cases that I'm not considering.
+
+Taking a peek at the [subreddit](https://www.reddit.com/r/adventofcode/), I see
+a lot of people mentioning a brute force method.  I assume the brute force
+method is to test adding an obstruction at every possible position, and seeing
+if that causes the guard to loop.  Thinking about this approach, I think I see
+now how my initial approach failed.
+
+I'm guessing that since I'm not attempting to divert from the default path, I'm
+missing out on other potential loops on the map.  So I need to see about adding
+obstructions that will push the guard into new paths, in case those new paths
+result in a loop.
+
+Once again the sample passed, but this time my input result is too high.  And
+it does take a lot longer to test every option along the path.
+
+340 - too low
+1444 - too high
