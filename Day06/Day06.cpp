@@ -313,20 +313,29 @@ TEST_CLASS(Part2)
 		// Load the input.
 		const auto [Map, InitialGuard] = LoadInput(std::move(Input));
 
+		std::set<s_Position> PatrolPositions;
 		std::set<s_Position> ObstructionPositions;
 
 		// Simulate the guard's path.
 		s_Guard Guard = InitialGuard;
 		while (Map.IsInMappedArea(Guard.Position))
 		{
+			PatrolPositions.insert(Guard.Position);
+
 			const s_Position ForwardPosition = Guard.GetForwardPosition();
 
 			if (Map.IsObstructionAt(ForwardPosition))
 				Guard.TurnRight();
 			else
 			{
-				if (TryObstructionAt(ForwardPosition, Map, InitialGuard))
-					ObstructionPositions.emplace(ForwardPosition);
+				// Note: Do not try placing an obstruction at a position that
+				// the guard has already occupied.  This includes the starting
+				// position.
+				if (!PatrolPositions.contains(ForwardPosition))
+				{
+					if (TryObstructionAt(ForwardPosition, Map, Guard))
+						ObstructionPositions.emplace(ForwardPosition);
+				}
 
 				Guard.StepForward();
 			}

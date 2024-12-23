@@ -155,8 +155,8 @@ Part 2 is an interesting puzzle!  My initial idea is that any time the guard
 encounters an obstruction, mark all the positions back from that position as
 potential places to obstruct the guard.
 
-I got the example to pass, but the answer I tried for my input was too low.  I
-assume that means there are special cases that I'm not considering.
+I got the example to pass, but the answer I tried for my input (340) was too
+low.  I assume that means there are special cases that I'm not considering.
 
 Taking a peek at the [subreddit](https://www.reddit.com/r/adventofcode/), I see
 a lot of people mentioning a brute force method.  I assume the brute force
@@ -169,8 +169,8 @@ missing out on other potential loops on the map.  So I need to see about adding
 obstructions that will push the guard into new paths, in case those new paths
 result in a loop.
 
-Once again the sample passed, but this time my input result is too high.  And
-it does take a lot longer to test every option along the path.
+Once again the sample passed, but this time my input result (1444) is too high.
+And it does take a lot longer to test every option along the path.
 
-340 - too low
-1444 - too high
+I made it faster by not having to recheck the entire path, but I still get the
+same too-high result.  I'm going to have to leave it here for today.
