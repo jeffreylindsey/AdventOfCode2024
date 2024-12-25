@@ -141,7 +141,7 @@ TEST_CLASS(Part1)
 
 	public:
 		AOC_TEST(Sample, 143)
-		AOC_TEST(Input, 0)
+		AOC_TEST_IGNORE(Input, 0)
 };
 
 /*****************************************************************************/
@@ -155,8 +155,8 @@ TEST_CLASS(Part2)
 	}
 
 	public:
-		AOC_TEST(Sample, 0)
-		AOC_TEST(Input, 0)
+		AOC_TEST_IGNORE(Sample, 0)
+		AOC_TEST_IGNORE(Input, 0)
 };
 
 /*****************************************************************************/

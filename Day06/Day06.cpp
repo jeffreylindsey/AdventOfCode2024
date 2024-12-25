@@ -346,7 +346,7 @@ TEST_CLASS(Part2)
 
 	public:
 		AOC_TEST(Sample, 6)
-		AOC_TEST(Input, 0)
+		AOC_TEST_IGNORE(Input, 0)
 };
 
 /*****************************************************************************/

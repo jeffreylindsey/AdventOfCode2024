@@ -13,6 +13,9 @@
 #define AOC_TEST(Name, Expected) TEST_METHOD(Name) \
 	{ Assert::AreEqual(Expected, Run(::OpenFileFor(DayString, #Name))); }
 
+#define AOC_TEST_IGNORE(Name, Expected) BEGIN_TEST_METHOD_ATTRIBUTE(Name) \
+	TEST_IGNORE() END_TEST_METHOD_ATTRIBUTE() AOC_TEST(Name, Expected)
+
 std::ifstream OpenFileFor
 	( const std::string_view DayString
 	, const std::string_view Name

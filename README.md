@@ -174,3 +174,15 @@ And it does take a lot longer to test every option along the path.
 
 I made it faster by not having to recheck the entire path, but I still get the
 same too-high result.  I'm going to have to leave it here for today.
+
+
+### December 24th
+
+It's Christmas Eve—Christmas Day by Advent of Code standards—so I won't be
+saving Christmas on time as the story is presented, but I'm still enjoying
+these puzzles and intend to continue solving them.
+
+That said, I don't want to put all my energy into the parts that I'm stuck on
+and have no clear way forward.  So, onward to day 7!
+
+#### Day 7
