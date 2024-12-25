@@ -201,3 +201,16 @@ I just glanced at the input, and noticed that I will very likely need to
 support larger than 32-bit integers.
 
 Part 1 passed on the first try.
+
+Ah hah, there are more than 2 operators!
+
+Duplicating my code from part 1 with modifications for part 2 feels icky, but
+this provides a quicker start and it'll be easier to clean it up later.  Using
+strings for concatenation also feels icky, but it should get me to the correct
+solution quicker than figuring out the integer math.
+
+Fortunately the early exit still applies, since concatenate will also only
+result in larger numbers.
+
+Had to run this one on an optimized Release build, because Debug was taking too
+long.  But it works, and I passed part 2!
