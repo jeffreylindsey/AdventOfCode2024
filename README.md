@@ -185,4 +185,19 @@ these puzzles and intend to continue solving them.
 That said, I don't want to put all my energy into the parts that I'm stuck on
 and have no clear way forward.  So, onward to day 7!
 
-#### Day 7
+#### Day 7: Bridge Repair
+
+Seems pretty simple.  For each line, try every combination of operators until a
+result matches the test value.  Since it looks like we're only dealing with
+positive numbers, we could potentially exit early if the calculated result
+becomes larger than the test value.
+
+Once again, the first step is writing more string parsing functions.
+
+I'm probably over-engineering this by making it possible to add more than 2
+operators, but it feels better this way.
+
+I just glanced at the input, and noticed that I will very likely need to
+support larger than 32-bit integers.
+
+Part 1 passed on the first try.

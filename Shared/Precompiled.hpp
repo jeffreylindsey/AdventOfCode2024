@@ -3,6 +3,7 @@
 #include "CppUnitTest.h"
 
 #include <algorithm>  // std::ranges::contains, std::ranges::reverse
+#include <array>
 #include <charconv>  // std::from_chars
 #include <deque>
 #include <filesystem>
@@ -10,6 +11,7 @@
 #include <numeric>  // std::reduce
 #include <optional>
 #include <queue>  // std::priority_queue
+#include <ranges>  // std::views
 #include <set>
 #include <span>
 #include <sstream>  // std::stringstream

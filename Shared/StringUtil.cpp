@@ -34,6 +34,34 @@ std::vector<std::string_view> SplitString
 }
 
 /*===========================================================================*/
+std::pair<std::string_view, std::string_view> SplitLeftRight
+( const std::string_view String
+, const std::string_view Delimiter
+)
+{
+	const size_t DelimiterOffset = String.find(Delimiter);
+
+	if (DelimiterOffset == String.npos)
+		return {String, {}};
+
+	const std::string_view Left = String.substr(0, DelimiterOffset);
+
+	const std::string_view Right
+		= String.substr(DelimiterOffset + Delimiter.length());
+
+	return {Left, Right};
+}
+
+/*===========================================================================*/
+std::string_view TrimLeadingSpaces(std::string_view String)
+{
+	while (String.starts_with(' '))
+		String.remove_prefix(1);
+
+	return String;
+}
+
+/*===========================================================================*/
 
 
 }  // namespace n_StringUtil
