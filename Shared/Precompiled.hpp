@@ -8,6 +8,7 @@
 #include <deque>
 #include <filesystem>
 #include <fstream>  // std::ifstream
+#include <map>
 #include <numeric>  // std::reduce
 #include <optional>
 #include <queue>  // std::priority_queue

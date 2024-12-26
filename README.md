@@ -214,3 +214,25 @@ result in larger numbers.
 
 Had to run this one on an optimized Release build, because Debug was taking too
 long.  But it works, and I passed part 2!
+
+
+### December 26th
+
+#### Day 8: Resonant Collinearity
+
+First step is deciding how I want to load the data.  Tiles like day 4, or
+positions like day 6?  Positions makes more sense for this one.
+
+Next step is to get all the pairs of antennas for each frequency.  I'm tempted
+to create a range factory that generates a range of all unique pairs from a
+given range, but that feels like more work than it's worth right now.  Might be
+an interesting exercise for later though.
+
+Part 1 done and passed on the first try!
+
+Things I've learned or refreshed in this exercise:
+
+* `std::multimap`
+* `std::ranges::subrange`
+* `std::ranges::range_value_t`
+* `std::next`
