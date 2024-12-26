@@ -111,6 +111,46 @@ std::pair<s_Position, s_Position> CalcAntinodePositions
 		};
 }
 
+/*===========================================================================*/
+std::vector<s_Position> CalcAllAntinodePositionsInMap
+( const std::pair<s_Position, s_Position>& AntennaPair
+, const s_Map& Map
+)
+{
+	std::vector<s_Position> Result;
+
+	const int dx = AntennaPair.second.x - AntennaPair.first.x;
+	const int dy = AntennaPair.second.y - AntennaPair.first.y;
+
+	// Negative
+	{
+		s_Position Position = AntennaPair.first;
+
+		while (Map.ContainsPosition(Position))
+		{
+			Result.push_back(Position);
+
+			Position.x -= dx;
+			Position.y -= dy;
+		}
+	}
+
+	// Positive
+	{
+		s_Position Position = AntennaPair.second;
+
+		while (Map.ContainsPosition(Position))
+		{
+			Result.push_back(Position);
+
+			Position.x += dx;
+			Position.y += dy;
+		}
+	}
+
+	return Result;
+}
+
 /*****************************************************************************/
 
 TEST_CLASS(Part1)
@@ -167,12 +207,45 @@ TEST_CLASS(Part2)
 	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
-		return 0;
+		const s_Map Map = LoadInput(std::move(Input));
+
+		std::set<s_Position> AllAntinodePositions;
+
+		auto Iter = Map.Antennas.begin();
+		while (Iter != Map.Antennas.end())
+		{
+			const char Frequency = Iter->first;
+
+			const auto [FrequencyBeginIter, FrequencyEndIter]
+				= Map.Antennas.equal_range(Frequency);
+
+			const auto FrequencyPositions
+				= std::ranges::subrange(FrequencyBeginIter, FrequencyEndIter)
+					| std::views::values;
+
+			const std::vector<std::pair<s_Position, s_Position>> Pairs
+				= GetAllUniquePairs(FrequencyPositions);
+
+			for (const std::pair<s_Position, s_Position>& AntennaPair : Pairs)
+			{
+				const std::vector<s_Position> CalculatedPositions
+					= CalcAllAntinodePositionsInMap(AntennaPair, Map);
+
+				AllAntinodePositions.insert
+					( CalculatedPositions.begin()
+					, CalculatedPositions.end()
+					);
+			}
+
+			Iter = FrequencyEndIter;
+		}
+
+		return static_cast<int>(AllAntinodePositions.size());
 	}
 
 	public:
-		AOC_TEST(Sample, 0)
-		AOC_TEST(Input, 0)
+		AOC_TEST(Sample, 34)
+		AOC_TEST(Input, 991)
 };
 
 /*****************************************************************************/

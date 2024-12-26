@@ -230,6 +230,8 @@ an interesting exercise for later though.
 
 Part 1 done and passed on the first try!
 
+And part 2 took less than 15 minutes.
+
 Things I've learned or refreshed in this exercise:
 
 * `std::multimap`
