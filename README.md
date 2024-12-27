@@ -253,3 +253,10 @@ To simplify inserting spans, and not having to worry about invalidated
 iterators, I'm going to use a `std::list` instead of a `std::vector`.
 
 Worked on the first try.
+
+For part 2, it doesn't look like I need to handle the case where moving files
+would open a gap large enough for a subsequent file, because of the order in
+which files get moved.  In fact, I want to make sure to avoid moving a file
+farther back on the disk.
+
+Part 2 might have been a simpler algorithm than part 1!

@@ -179,14 +179,61 @@ TEST_CLASS(Part1)
 TEST_CLASS(Part2)
 {
 	/*=======================================================================*/
+	void Compact(std::list<s_DiskSpan>& r_Disk)
+	{
+		// Collect the iterators for each of the files in the original order.
+		std::vector<std::list<s_DiskSpan>::iterator> Files;
+		for (auto Iter = r_Disk.begin(); Iter != r_Disk.end(); ++Iter)
+		{
+			if (Iter->FileID != NoFileID)
+				Files.push_back(Iter);
+		}
+
+		// Reverse iterate the files.
+		for (const auto& File : std::views::reverse(Files))
+		{
+			// Note: Do not search for a gap beyond the current file.
+			const auto SearchEnd = File;
+
+			const auto FoundGap
+				= std::find_if
+					( r_Disk.begin()
+					, SearchEnd
+					, [Length = File->Length](const s_DiskSpan& Span)
+						{
+							return Span.FileID == NoFileID
+								&& Span.Length >= Length;
+						}
+					);
+
+			if (FoundGap == SearchEnd)
+				continue;
+
+			if (FoundGap->Length == File->Length)
+				*FoundGap = *File;
+			else
+			{
+				r_Disk.insert(FoundGap, *File);
+				FoundGap->Length -= File->Length;
+			}
+
+			File->FileID = NoFileID;
+		}
+	}
+
+	/*=======================================================================*/
 	int64_t Run(std::ifstream Input)
 	{
-		return 0;
+		std::list<s_DiskSpan> Disk = LoadInput(std::move(Input));
+
+		Compact(Disk);
+
+		return ComputeFilesystemChecksum(Disk);
 	}
 
 	public:
-		AOC_TEST(Sample, 0ll)
-		AOC_TEST(Input, 0ll)
+		AOC_TEST(Sample, 2858ll)
+		AOC_TEST(Input, 6381624803796ll)
 };
 
 /*****************************************************************************/
