@@ -8,6 +8,7 @@
 #include <deque>
 #include <filesystem>
 #include <fstream>  // std::ifstream
+#include <list>
 #include <map>
 #include <numeric>  // std::reduce
 #include <optional>

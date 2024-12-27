@@ -238,3 +238,18 @@ Things I've learned or refreshed in this exercise:
 * `std::ranges::subrange`
 * `std::ranges::range_value_t`
 * `std::next`
+
+#### Day 9: Disk Fragmenter
+
+I feel like I might need larger than 32-bit integers for these checksums.
+
+The most obvious initial way of attempting this is to create a vector of file
+IDs for each block on the disk, but I suspect they may have designed the puzzle
+such that this approach would take an unnecessarily large amount of memory.  So
+perhaps a smarter approach will be to store and work with the spans themselves.
+The challenge of doing it this way is that I'll need to split spans.
+
+To simplify inserting spans, and not having to worry about invalidated
+iterators, I'm going to use a `std::list` instead of a `std::vector`.
+
+Worked on the first try.
