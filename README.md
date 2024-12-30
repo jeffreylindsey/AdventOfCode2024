@@ -290,3 +290,6 @@ The simplest implementation seems to use recursion.  Guess I'll find out if I
 run out of stack space.
 
 Looks like that worked!
+
+Oh, I nearly completed part 2 when I was implementing part 1.  A few quick
+edits, and that's part 2 done!

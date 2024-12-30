@@ -200,14 +200,65 @@ TEST_CLASS(Part1)
 TEST_CLASS(Part2)
 {
 	/*=======================================================================*/
+	int Explore
+	( const c_TopographicMap& Map
+	, const s_Position& Position
+	, const char PriorHeight
+	)
+	{
+		const char Height = Map.GetHeightAt(Position);
+
+		if (Height != PriorHeight + 1)
+			return 0;
+
+		if (Height == '9')
+			return 1;
+
+		return Explore(Map, Position.Up(), Height)
+			+ Explore(Map, Position.Down(), Height)
+			+ Explore(Map, Position.Left(), Height)
+			+ Explore(Map, Position.Right(), Height);
+	}
+
+	/*=======================================================================*/
+	int RateTrailhead(const c_TopographicMap& Map, const s_Position& Trailhead)
+	{
+		return Explore(Map, Trailhead, '0' - 1);
+	}
+
+	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
-		return 0;
+		c_TopographicMap Map;
+
+		// Load the input.
+		for (const std::string& Line : c_LineReader(Input))
+			Map.AddLine(Line);
+
+		// Find each trailhead.
+		std::vector<s_Position> Trailheads;
+		for (int y = 0; y < Map.Height(); ++y)
+		{
+			for (int x = 0; x < Map.Width(); ++x)
+			{
+				const s_Position Position{x, y};
+
+				if (Map.GetHeightAt(Position) == '0')
+					Trailheads.push_back(Position);
+			}
+		}
+
+		// Accumulate the ratings for each trailhead.
+		int SumOfRatings = 0;
+		for (const s_Position& Trailhead : Trailheads)
+			SumOfRatings += RateTrailhead(Map, Trailhead);
+
+		return SumOfRatings;
 	}
 
 	public:
-		AOC_TEST(Sample, 0)
-		AOC_TEST(Input, 0)
+		AOC_TEST(Sample, 81)
+		AOC_TEST(Input, 1326)
 };
 
 /*****************************************************************************/
