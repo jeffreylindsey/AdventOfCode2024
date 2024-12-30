@@ -260,3 +260,33 @@ which files get moved.  In fact, I want to make sure to avoid moving a file
 farther back on the disk.
 
 Part 2 might have been a simpler algorithm than part 1!
+
+
+### December 29th
+
+#### Day 10: Hoof It
+
+Here we have another map.  Maybe I should make common code for loading maps
+like this, but for right now I'm going to just copy the code from day 4.
+
+This is a minor thing, but if I describe the map as having a width and height,
+that height could be confused with how it is also a map of heights.
+
+So I believe the general approach is:
+
+1. Find each trailhead (height of 0).
+2. For each trailhead, count every unique path (to a height of 9).
+3. Add those counts together.
+
+Easy, right?
+
+I was going to assuming that if two trails diverge and then merge back to the
+same destination, that counts as a score of 2, not 1; but I see that the task
+specifies **the number of 9-height positions reachable from that trailhead**.
+So if a trailhead has multiple paths to the same 9-height position, that still
+only counts as one.
+
+The simplest implementation seems to use recursion.  Guess I'll find out if I
+run out of stack space.
+
+Looks like that worked!
