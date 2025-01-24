@@ -293,3 +293,11 @@ Looks like that worked!
 
 Oh, I nearly completed part 2 when I was implementing part 1.  A few quick
 edits, and that's part 2 done!
+
+
+### January 23
+
+Wow, January really has not given me much time to do programming puzzles, but
+let's see if I can get one done today.
+
+#### Day 11
