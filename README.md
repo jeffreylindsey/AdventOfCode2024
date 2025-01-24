@@ -330,3 +330,26 @@ off the top of my head.  I think it has to do with using log base 10.
 
 I got a result for my input, and it was correct!  No special optimizations
 needed.  So far.
+
+Hah, I'm amused that part 2 is just "what if you did it more?"
+
+I'm assuming this is designed so that my original approach will not work here.
+Indeed, it fails after a minute due to running out of memory, so I have to
+think about a different approach now.
+
+The actual numbers on the pebbles do not matter as much as the total number of
+pebbles at the end.  So the answer here is probably not to keep track of every
+individual pebble, but to figure out the total number of pebbles some other way.
+
+I suspect there are going to be repeating patterns.  For example:
+
+1. 0
+2. 1
+3. 2024
+4. 20 24
+5. 2 0 2 4
+6. 4048 1 4048 8096
+
+Already within 5 steps, there is a repeat of `0`, and `2` shows up twice.  So
+maybe I want to keep a map of these patterns, and use that to figure out the
+resulting number of pebbles.
