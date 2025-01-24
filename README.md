@@ -353,3 +353,10 @@ I suspect there are going to be repeating patterns.  For example:
 Already within 5 steps, there is a repeat of `0`, and `2` shows up twice.  So
 maybe I want to keep a map of these patterns, and use that to figure out the
 resulting number of pebbles.
+
+Ultimately I realized that the order of these numbers don't matter, and all I
+needed to keep track of was the count for each number.  This meant that all I
+needed was a simple map from the number to the count of that number.  All the
+stones of the same number will end up as the same result after a single blink.
+This approach worked, and part 2 passed without any issues.  And only took
+28 milliseconds.

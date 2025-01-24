@@ -11,10 +11,13 @@ namespace Day11
 
 constexpr std::string_view DayString = "Day11";
 
+// Maps a number to the number of stones that have that number engraved on it.
+using t_PebbleSummary = std::map<uint64_t, size_t>;
+
 /*===========================================================================*/
-std::vector<uint64_t> ReadInput(std::ifstream& r_Input)
+t_PebbleSummary ReadInput(std::ifstream& r_Input)
 {
-	std::vector<uint64_t> Numbers;
+	t_PebbleSummary PebbleSummary;
 
 	// Read the entire input into a string.
 	const std::string InputString(std::istreambuf_iterator<char>(r_Input), {});
@@ -24,10 +27,10 @@ std::vector<uint64_t> ReadInput(std::ifstream& r_Input)
 		: n_StringUtil::SplitString(InputString, " ")
 	)
 	{
-		Numbers.push_back(std::stoi(std::string(NumberAsString)));
+		++PebbleSummary[std::stoi(std::string(NumberAsString))];
 	}
 
-	return Numbers;
+	return PebbleSummary;
 }
 
 /*===========================================================================*/
@@ -76,31 +79,30 @@ bool TrySplitDigits
 }
 
 /*===========================================================================*/
-std::vector<uint64_t> GetBlinkResult(std::vector<uint64_t> PriorNumbers)
+t_PebbleSummary GetBlinkResult(t_PebbleSummary PriorSummary)
 {
-	std::vector<uint64_t> NewNumbers;
-	NewNumbers.reserve(PriorNumbers.size() * 2);
+	t_PebbleSummary NewSummary;
 
-	for (const uint64_t OriginalNumber : PriorNumbers)
+	for (const auto& [OriginalNumber, Count] : PriorSummary)
 	{
 		uint64_t LeftNumber, RightNumber;
 
 		if (OriginalNumber == 0)
-			NewNumbers.push_back(1);
+			NewSummary[1] += Count;
 		else if (TrySplitDigits(OriginalNumber, LeftNumber, RightNumber))
 		{
-			NewNumbers.push_back(LeftNumber);
-			NewNumbers.push_back(RightNumber);
+			NewSummary[LeftNumber] += Count;
+			NewSummary[RightNumber] += Count;
 		}
 		else
-			NewNumbers.push_back(OriginalNumber * 2024);
+			NewSummary[OriginalNumber * 2024] += Count;
 	}
 
-	return NewNumbers;
+	return NewSummary;
 }
 
 /*===========================================================================*/
-size_t SimulateBlinks(std::vector<uint64_t> Numbers, const int NumberOfBlinks)
+size_t SimulateBlinks(t_PebbleSummary PebbleSummary, const int NumberOfBlinks)
 {
 	// Simulate the blinks.
 	for (int BlinksRemaining = NumberOfBlinks;
@@ -108,10 +110,15 @@ size_t SimulateBlinks(std::vector<uint64_t> Numbers, const int NumberOfBlinks)
 		--BlinksRemaining
 	)
 	{
-		Numbers = GetBlinkResult(std::move(Numbers));
+		PebbleSummary = GetBlinkResult(std::move(PebbleSummary));
 	}
 
-	return Numbers.size();
+	// Count the stones.
+	size_t TotalCount = 0;
+	for (const auto& [Number, Count] : PebbleSummary)
+		TotalCount += Count;
+
+	return TotalCount;
 }
 
 /*****************************************************************************/
@@ -141,7 +148,7 @@ TEST_CLASS(Part2)
 
 	public:
 		//AOC_TEST(Sample, 0ull)
-		AOC_TEST(Input, 0ull)
+		AOC_TEST(Input, 205913561055242ull)
 };
 
 /*****************************************************************************/
