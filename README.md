@@ -300,4 +300,33 @@ edits, and that's part 2 done!
 Wow, January really has not given me much time to do programming puzzles, but
 let's see if I can get one done today.
 
-#### Day 11
+#### Day 11: Plutonian Pebbles
+
+Given the multiple examples, I may want to create multiple unit tests.  But for
+now, I'm using the initial arrangement in the longer example, since the prompt
+provides an answer for blinking 25 times from this initial arrangement.
+
+Since this problem primarily deals with inserting items in the middle of a
+series, my first thought is to use a linked list, or `std::list` here.  I do
+wonder if the actual input is designed such that the result will be more than
+can easily fit in memory, in which case I'll need to come up with a more clever
+approach, but best not to pre-emptively optimize.
+
+Starting with the parsing from Day 7, along with loading the input into a
+string from Day 3.
+
+On second thought, instead of modifying the same container, I could just
+construct a new container on each blink.  Not sure which will be more efficient.
+Might start with `std::vector`, since that's a good simple default, until I
+find that something else might be more appropriate.
+
+It looks like I'll need to expect large numbers.  Definitely larger than 32 bit
+integers.  Hopefully not more than 64 bit integers!  And it looks like they'll
+all be positive (or zero).
+
+I need to remember how to get the number of digits from an integer.  This is
+something I know I've done before, but don't do it often enough to remember it
+off the top of my head.  I think it has to do with using log base 10.
+
+I got a result for my input, and it was correct!  No special optimizations
+needed.  So far.
