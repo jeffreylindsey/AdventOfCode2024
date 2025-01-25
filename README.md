@@ -360,3 +360,23 @@ needed was a simple map from the number to the count of that number.  All the
 stones of the same number will end up as the same result after a single blink.
 This approach worked, and part 2 passed without any issues.  And only took
 28 milliseconds.
+
+
+### January 24
+
+#### Day 12: Garden Groups
+
+This one comes with three examples!
+
+This puzzle has a map type input, so I'm starting with the code from Day 10,
+which also used a map.  The 2D type of map, not the key-value `std::map` type
+of map.
+
+It really isn't necessary to make a type safe `s_RegionID`.  I could just use
+an `int`.  But I feel better about having stronger type safety.
+
+I kinda just went on instinct and wrote code to identify the contiguous regions,
+and give them each a unique ID.  Now to figure out how to calculate the area
+and perimeter for each of them.
+
+Nice, it all worked on the first try!  On to part 2.

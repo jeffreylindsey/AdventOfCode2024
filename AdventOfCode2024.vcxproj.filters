@@ -178,7 +178,13 @@
     <Text Include="Day12\Input.txt">
       <Filter>Day12</Filter>
     </Text>
-    <Text Include="Day12\Sample.txt">
+    <Text Include="Day12\Sample1.txt">
+      <Filter>Day12</Filter>
+    </Text>
+    <Text Include="Day12\Sample2.txt">
+      <Filter>Day12</Filter>
+    </Text>
+    <Text Include="Day12\Sample3.txt">
       <Filter>Day12</Filter>
     </Text>
   </ItemGroup>
