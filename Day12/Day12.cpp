@@ -263,6 +263,54 @@ c_Map2D<char> Load2DCharMap(std::ifstream& r_Input)
 	return Map;
 }
 
+/*===========================================================================*/
+c_RegionMap CreateRegionMap(const c_Map2D<char>& PlotMap)
+{
+	const int MapWidth = PlotMap.Width();
+	const int MapHeight = PlotMap.Height();
+
+	c_RegionMap RegionMap(MapWidth, MapHeight);
+
+	// Identify each of the contiguous regions.
+	for (int y = 0; y < MapHeight; ++y)
+	{
+		for (int x = 0; x < MapWidth; ++x)
+		{
+			const s_Position Position{x, y};
+
+			const char PlantType = PlotMap.GetAt(Position);
+
+			// Given the order that we iterate through the plots, plots to the
+			// left (-x) and up (-y) have already been visited.
+
+			const s_Position UpPosition = Position.Up();
+			const s_Position LeftPosition = Position.Left();
+
+			const char UpPlantType = PlotMap.GetAt(UpPosition);
+			const char LeftPlantType = PlotMap.GetAt(LeftPosition);
+
+			if (UpPlantType == PlantType && LeftPlantType == PlantType)
+			{
+				const s_RegionID UpRegionID = RegionMap.GetAt(UpPosition);
+				const s_RegionID LeftRegionID = RegionMap.GetAt(LeftPosition);
+
+				if (UpRegionID != LeftRegionID)
+					RegionMap.MergeRegions(UpRegionID, LeftRegionID);
+
+				RegionMap.SetAt(Position, UpRegionID);
+			}
+			else if (UpPlantType == PlantType)
+				RegionMap.SetAt(Position, RegionMap.GetAt(UpPosition));
+			else if (LeftPlantType == PlantType)
+				RegionMap.SetAt(Position, RegionMap.GetAt(LeftPosition));
+			else
+				RegionMap.SetAt(Position, RegionMap.NewRegionID());
+		}
+	}
+
+	return RegionMap;
+}
+
 /*****************************************************************************/
 
 TEST_CLASS(Part1)
@@ -275,57 +323,7 @@ TEST_CLASS(Part1)
 		const int MapWidth = PlotMap.Width();
 		const int MapHeight = PlotMap.Height();
 
-		c_RegionMap RegionMap(MapWidth, MapHeight);
-
-		// Identify each of the contiguous regions.
-		for (int y = 0; y < MapHeight; ++y)
-		{
-			for (int x = 0; x < MapWidth; ++x)
-			{
-				const s_Position Position{x, y};
-
-				const char PlantType = PlotMap.GetAt(Position);
-
-				// Given the order that we iterate through the plots, plots to
-				// the left (-x) and up (-y) have already been visited.
-
-				const s_Position UpPosition = Position.Up();
-				const s_Position LeftPosition = Position.Left();
-
-				const char UpPlantType = PlotMap.GetAt(UpPosition);
-				const char LeftPlantType = PlotMap.GetAt(LeftPosition);
-
-				if (UpPlantType == PlantType && LeftPlantType == PlantType)
-				{
-					const s_RegionID UpRegionID
-						= RegionMap.GetAt(UpPosition);
-
-					const s_RegionID LeftRegionID
-						= RegionMap.GetAt(LeftPosition);
-
-					if (UpRegionID != LeftRegionID)
-						RegionMap.MergeRegions(UpRegionID, LeftRegionID);
-
-					RegionMap.SetAt(Position, UpRegionID);
-				}
-				else if (UpPlantType == PlantType)
-				{
-					RegionMap.SetAt
-						( Position
-						, RegionMap.GetAt(UpPosition)
-						);
-				}
-				else if (LeftPlantType == PlantType)
-				{
-					RegionMap.SetAt
-						( Position
-						, RegionMap.GetAt(LeftPosition)
-						);
-				}
-				else
-					RegionMap.SetAt(Position, RegionMap.NewRegionID());
-			}
-		}
+		const c_RegionMap RegionMap = CreateRegionMap(PlotMap);
 
 		struct s_AreaAndPerimeter
 		{
