@@ -187,5 +187,11 @@
     <Text Include="Day12\Sample3.txt">
       <Filter>Day12</Filter>
     </Text>
+    <Text Include="Day12\Sample4.txt">
+      <Filter>Day12</Filter>
+    </Text>
+    <Text Include="Day12\Sample5.txt">
+      <Filter>Day12</Filter>
+    </Text>
   </ItemGroup>
 </Project>

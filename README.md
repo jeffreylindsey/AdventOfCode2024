@@ -380,3 +380,18 @@ and give them each a unique ID.  Now to figure out how to calculate the area
 and perimeter for each of them.
 
 Nice, it all worked on the first try!  On to part 2.
+
+Two more examples!  This puzzle is very generous with the examples.
+
+I'm definitely having to think more about how to consolidate the sides.  In
+fact, I might have to leave it for another day (hopefully tomorrow), since it's
+currently well past midnight, and I am tired.
+
+
+### January 25
+
+#### Day 12 continued
+
+As I thought about how to complete part 2, I found myself possibly wanting
+another 2D map of another type.  So I ended up spending some time making a more
+generic c_Map2D, and updated the existing code to use that.
