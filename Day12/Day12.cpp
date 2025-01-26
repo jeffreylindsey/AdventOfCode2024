@@ -378,7 +378,88 @@ TEST_CLASS(Part2)
 	/*=======================================================================*/
 	int Run(std::ifstream Input)
 	{
-		return 0;
+		const c_Map2D<char> PlotMap = Load2DCharMap(Input);
+
+		const int MapWidth = PlotMap.Width();
+		const int MapHeight = PlotMap.Height();
+
+		const c_RegionMap RegionMap = CreateRegionMap(PlotMap);
+
+		struct s_SideFlags
+		{
+			bool Top : 1 = false;
+			bool Bottom : 1 = false;
+			bool Left : 1 = false;
+			bool Right : 1 = false;
+		};
+		c_Map2D<s_SideFlags> SidesMap;
+		SidesMap.SetWidth(MapWidth);
+		SidesMap.SetHeight(MapHeight);
+
+		struct s_AreaAndSides
+		{
+			int Area = 0;
+			int Sides = 0;
+		};
+		std::map<s_RegionID, s_AreaAndSides> RegionData;
+
+		// Calculate the area and sides for each region.
+		for (int y = 0; y < MapHeight; ++y)
+		{
+			for (int x = 0; x < MapWidth; ++x)
+			{
+				const s_Position Position{x, y};
+
+				const s_RegionID RegionID = RegionMap.GetAt(Position);
+
+				const s_SideFlags CurrentSides
+					{ .Top = (RegionMap.GetAt(Position.Up()) != RegionID)
+					, .Bottom = (RegionMap.GetAt(Position.Down()) != RegionID)
+					, .Left = (RegionMap.GetAt(Position.Left()) != RegionID)
+					, .Right = (RegionMap.GetAt(Position.Right()) != RegionID)
+					};
+
+				SidesMap.SetAt(Position, CurrentSides);
+
+				// Given the order that we iterate through the plots, plots to
+				// the left (-x) and up (-y) have already been visited.
+				const s_Position UpPosition = Position.Up();
+				const s_Position LeftPosition = Position.Left();
+
+				// Note: The sides to the left or up are only relevant if they
+				// continue the same region, which we already just checked for
+				// the current sides.
+				const s_SideFlags UpSides
+					= CurrentSides.Top
+						? s_SideFlags{}
+						: SidesMap.GetAt(UpPosition);
+
+				const s_SideFlags LeftSides
+					= CurrentSides.Left
+						? s_SideFlags{}
+						: SidesMap.GetAt(LeftPosition);
+
+				s_AreaAndSides& r_Region = RegionData[RegionID];
+
+				++r_Region.Area;
+
+				if (CurrentSides.Top && !LeftSides.Top)
+					++r_Region.Sides;
+				if (CurrentSides.Bottom && !LeftSides.Bottom)
+					++r_Region.Sides;
+				if (CurrentSides.Left && !UpSides.Left)
+					++r_Region.Sides;
+				if (CurrentSides.Right && !UpSides.Right)
+					++r_Region.Sides;
+			}
+		}
+
+		// Calculate the total price.
+		int TotalPrice = 0;
+		for (const auto& [RegionID, AreaAndPerimeter] : RegionData)
+			TotalPrice += AreaAndPerimeter.Area * AreaAndPerimeter.Sides;
+
+		return TotalPrice;
 	}
 
 	public:
@@ -387,7 +468,7 @@ TEST_CLASS(Part2)
 		AOC_TEST(Sample3, 1206)
 		AOC_TEST(Sample4, 236)
 		AOC_TEST(Sample5, 368)
-		AOC_TEST(Input, 0)
+		AOC_TEST(Input, 870202)
 };
 
 /*****************************************************************************/

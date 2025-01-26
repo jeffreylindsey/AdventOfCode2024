@@ -395,3 +395,15 @@ currently well past midnight, and I am tired.
 As I thought about how to complete part 2, I found myself possibly wanting
 another 2D map of another type.  So I ended up spending some time making a more
 generic c_Map2D, and updated the existing code to use that.
+
+Interesting.  On my first attempt, the second example, with the X's and O's,
+worked, but the rest were off.
+
+Ah, I suspected it might have something to do with the last example that was
+provided, where regions may appear to share a side, but they are considered
+separate sides.  Adding a check to make sure I was only comparing sides for the
+same region fixed the issue.
+
+That was definitely felt a lot easier to complete once I had my generic
+`c_Map2D` class available.  I might need to add that to the shared utility code,
+and make use of it in the older puzzles.
